@@ -13,7 +13,6 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Feather from "@expo/vector-icons/Feather";
 
 import { useNavigation } from "@react-navigation/native";
-import { salvarJogosNoAsyncStorage } from "../../components/AsyncStorage";
 
 import api from "../../services/api";
 import { useGames } from "../../contexts/gameContext";

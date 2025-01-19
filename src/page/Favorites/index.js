@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -9,14 +9,12 @@ import {
 } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
-import { obterDadosDoAsyncStorage } from "../../components/AsyncStorage";
+
 import ProductCard from "../../components/ProductCard";
-import { GamesContext } from "../../contexts/games";
+
 import { useGames } from "../../contexts/gameContext";
 
 function Favorites() {
-  const [dadosJogos, setDadosJogos] = useState([]);
-  const { jogos, games } = useContext(GamesContext);
   const { favorites, loading } = useGames();
   const navigation = useNavigation();
   function handleBack() {
