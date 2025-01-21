@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Modal,
   Platform,
+  Linking,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -48,6 +49,9 @@ function Detail({ route }) {
     await toogleFavorites(card);
     console.log("Salvo com sucesso");
   }
+  function handlelinkJogos() {
+    Linking.openURL(detalhes.website);
+  }
 
   return (
     <View style={styles.container}>
@@ -67,7 +71,7 @@ function Detail({ route }) {
                 <TouchableOpacity style={styles.bookmark} onPress={handleSave}>
                   <Feather
                     name="bookmark"
-                    size={18}
+                    size={20}
                     color={
                       favorites.some((item) => item.id === ID_DO_JOGO)
                         ? "#FF455F"
@@ -76,6 +80,9 @@ function Detail({ route }) {
                   />
                 </TouchableOpacity>
               </View>
+              <TouchableOpacity style={styles.link} onPress={handlelinkJogos}>
+                <Feather name="link" color="#FFF" size={20} />
+              </TouchableOpacity>
               <View style={styles.imgContainer}>
                 <Image
                   style={styles.imagem}
@@ -138,34 +145,22 @@ function Detail({ route }) {
 
               <Text style={styles.subTitle}>Plataformas</Text>
               <View style={styles.platform}>
-                <Text style={styles.plataformas}>
-                  {detalhes.parent_platforms[0].platform.name}
-                </Text>
-                <Text style={styles.plataformas}>
-                  {detalhes.parent_platforms[1].platform.name}
-                </Text>
-                <Text style={styles.plataformas}>
-                  {detalhes.parent_platforms[2].platform.name}
-                </Text>
+                {detalhes.platforms.length > 0 &&
+                  detalhes.platforms.map(({ platform }) => (
+                    <Text style={styles.plataformas} key={platform.id}>
+                      {platform.name}
+                    </Text>
+                  ))}
               </View>
 
               <Text style={styles.subTitle}>Stores</Text>
               <View style={styles.stores}>
-                <Text style={styles.store}>
-                  {detalhes?.stores[0]?.store.name}
-                </Text>
-                <Text style={styles.store}>
-                  {detalhes?.stores[1]?.store.name}
-                </Text>
-                <Text style={styles.store}>
-                  {detalhes?.stores[2]?.store.name}
-                </Text>
-                <Text style={styles.store}>
-                  {detalhes.stores[3]?.store.name}
-                </Text>
-                <Text style={styles.store}>
-                  {detalhes.stores[4]?.store.name}
-                </Text>
+                {detalhes.stores.length > 0 &&
+                  detalhes.stores.map(({ store }) => (
+                    <Text style={styles.store} key={store.id}>
+                      {store.name}
+                    </Text>
+                  ))}
               </View>
             </View>
           )}
@@ -311,8 +306,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#1F2430",
     width: 30,
     height: 30,
-    borderRadius: 15,
+    borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
+  },
+  link: {
+    position: "absolute",
+    right: 10,
+    top: 180,
+    zIndex: 10,
+    width: 35,
+    height: 35,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FF455F",
+    borderRadius: 35,
   },
 });

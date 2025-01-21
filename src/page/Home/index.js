@@ -29,19 +29,21 @@ function Home() {
     games();
   }, [search]);
 
-  function buscarJogos() {
+  async function buscarJogos() {
     // Filtrar os jogos com base no texto de busca
     if (jogos.length > 0 && search.trim() !== "") {
-      const resultados = jogos.filter(
+      const resultados = await jogos.filter(
         (jogo) =>
           jogo.name.toLowerCase() &&
           jogo.name.toLowerCase().includes(search.toLowerCase())
       );
       // coloquei {resultados} no navigation.navigate, que é um params para depois eu pegar no search passando {resultados} = route.params, mas primeiro tenho que colocar route dentro da função Search({route}),no arquivo Search...
+
       navigation.navigate("Search", { resultados });
-      console.log(resultados);
+      setSearch("");
     } else {
       console.log("Erro", "Não foi possível encontrar jogos");
+      setSearch("");
     }
   }
 
@@ -69,7 +71,7 @@ function Home() {
           Dev<Text style={{ color: "#FF455F" }}>Games</Text>
         </Text>
         <TouchableOpacity style={styles.bookmark} onPress={handlePageFavorites}>
-          <Feather name="bookmark" size={18} color="#FFFFFF" />
+          <Feather name="bookmark" size={25} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
       <View style={styles.inputContainer}>
@@ -138,9 +140,9 @@ const styles = StyleSheet.create({
   },
   bookmark: {
     backgroundColor: "#1F2430",
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 50,
+    height: 50,
+    borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
   },

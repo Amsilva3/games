@@ -43,11 +43,9 @@ function Favorites() {
       {!loading && favorites.length > 0 && (
         <FlatList
           data={favorites}
-          hasTrash
-          renderItem={({ item }) => <ProductCard card={item} />}
+          renderItem={({ item }) => <ProductCard card={item} hasTrash />}
           keyExtractor={(item) => item.id}
         />
-        // <ProductCard card={favorites} />
       )}
     </View>
   );
