@@ -10,10 +10,14 @@ import {
   salvarJogosNoAsyncStorage,
   removerDadosDoAsyncStorage,
 } from "../components/AsyncStorage";
+import api from "../services/api";
 
 const GameContext = createContext({});
 
 export function GameProvider({ children }) {
+  const [detalhes, setDetalhes] = useState([]);
+  const [jogos, setJogos] = useState([]);
+  const [category, setCategory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState([]);
   const getFavorites = useCallback(async () => {
@@ -32,6 +36,34 @@ export function GameProvider({ children }) {
     getFavorites();
   }, []);
 
+  async function genero() {
+    const response = await api.get("/genres", {
+      params: {
+        key: process.env.EXPO_PUBLIC_API_KEY,
+        page_size: 5,
+      },
+    });
+
+    setCategory(response.data.results);
+  }
+  async function games() {
+    const response = await api.get("/games", {
+      params: {
+        key: process.env.EXPO_PUBLIC_API_KEY,
+        page_size: 5,
+      },
+    });
+    setJogos(response.data.results);
+  }
+  async function DetailGames(ID_DO_JOGO) {
+    const response = await api.get(`/games/${ID_DO_JOGO}`, {
+      params: {
+        key: process.env.EXPO_PUBLIC_API_KEY,
+      },
+    });
+    setDetalhes(response.data);
+  }
+
   async function toogleFavorites(newGame) {
     const exists = favorites.some((game) => game.id === newGame.id);
     if (exists) {
@@ -49,7 +81,18 @@ export function GameProvider({ children }) {
   }
   return (
     <GameContext.Provider
-      value={{ loading, favorites, toogleFavorites, removeFavorite }}
+      value={{
+        loading,
+        favorites,
+        toogleFavorites,
+        removeFavorite,
+        genero,
+        category,
+        games,
+        jogos,
+        DetailGames,
+        detalhes,
+      }}
     >
       {children}
     </GameContext.Provider>

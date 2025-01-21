@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -14,12 +14,11 @@ import Feather from "@expo/vector-icons/Feather";
 import ProductCard from "../../components/ProductCard";
 
 import { useNavigation } from "@react-navigation/native";
-import { GamesContext } from "../../contexts/games";
-import { GeneroContext } from "../../contexts/genero";
+
+import { useGames } from "../../contexts/gameContext";
 
 function Home() {
-  const { jogos, games } = useContext(GamesContext);
-  const { category, genero } = useContext(GeneroContext);
+  const { category, genero, games, jogos } = useGames();
 
   const [search, setSearch] = useState("");
 

@@ -1,6 +1,4 @@
-import { useContext, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { GamesContext } from "../../contexts/games";
 
 export async function obterDadosDoAsyncStorage() {
   let listasJogos = [];
@@ -16,7 +14,6 @@ export async function obterDadosDoAsyncStorage() {
 }
 
 export async function salvarJogosNoAsyncStorage(newGame) {
-  // const { jogos, games } = useContext(GamesContext);
   const listas = await obterDadosDoAsyncStorage();
   const existe = listas.some((game) => game.id === newGame.id);
   if (!existe) {

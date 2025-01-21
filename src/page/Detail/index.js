@@ -15,30 +15,18 @@ import Feather from "@expo/vector-icons/Feather";
 
 import { useNavigation } from "@react-navigation/native";
 
-import api from "../../services/api";
 import { useGames } from "../../contexts/gameContext";
 
 function Detail({ route }) {
   const navigation = useNavigation();
   const { card } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
-  const { toogleFavorites, favorites } = useGames();
-
-  const [detalhes, setDetalhes] = useState([]);
+  const { toogleFavorites, favorites, DetailGames, detalhes } = useGames();
 
   const ID_DO_JOGO = card.id;
 
   useEffect(() => {
-    async function DetailGames() {
-      const response = await api.get(`/games/${ID_DO_JOGO}`, {
-        params: {
-          key: process.env.EXPO_PUBLIC_API_KEY,
-        },
-      });
-      setDetalhes(response.data);
-    }
-
-    DetailGames();
+    DetailGames(ID_DO_JOGO);
   }, [ID_DO_JOGO]);
 
   const htmlRemoveRegex = /(<([^>]+)>)/gi;
