@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -42,7 +42,6 @@ function Home() {
       setSearch("");
     } else {
       console.log("Erro", "Não foi possível encontrar jogos");
-      setSearch("");
     }
   }
 
@@ -75,6 +74,7 @@ function Home() {
       </View>
       <View style={styles.inputContainer}>
         <TextInput
+          value={search}
           style={styles.input}
           placeholder="Looking for a game?"
           placeholderTextColor="#FFFFFF"

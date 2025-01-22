@@ -36,9 +36,9 @@ function Favorites() {
       </View>
       {loading && <ProductCard />}
       {!loading && favorites.length === 0 && (
-        <Text style={{ marginHorizontal: 14, textAlign: "center" }}>
-          Nenhum jogo favoritado
-        </Text>
+        <View style={styles.textoContainer}>
+          <Text style={styles.textFavoritos}>No favorite games</Text>
+        </View>
       )}
       {!loading && favorites.length > 0 && (
         <FlatList
@@ -65,15 +65,26 @@ const styles = StyleSheet.create({
     color: "#F7F7F7",
     fontSize: 24,
     textAlign: "center",
-    paddingLeft: 150,
+    alignItems: "center",
+    marginHorizontal: "100",
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
+    marginHorizontal: "20",
   },
   flatlist: {
     flex: 1,
     width: "100%",
     height: "100%",
+  },
+  textFavoritos: {
+    color: "#FFF",
+  },
+  textoContainer: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

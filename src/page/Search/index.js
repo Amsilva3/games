@@ -10,9 +10,7 @@ export default function Search({ route }) {
   if (resultados <= 0) {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.text}>
-          "Não existe nenhum resultado para sua pesquisa"
-        </Text>
+        <Text style={styles.text}>"There are no results for your search"</Text>
         <StatusBar style="light" />
       </SafeAreaView>
     );

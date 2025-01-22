@@ -8,6 +8,8 @@ import {
   Modal,
   Platform,
   Linking,
+  ScrollView,
+  SafeAreaView,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -42,119 +44,129 @@ function Detail({ route }) {
   }
 
   return (
-    <View style={styles.container}>
-      {detalhes && (
-        <View style={styles.item}>
-          {detalhes.id === ID_DO_JOGO && (
-            <View>
-              <View style={styles.header}>
-                <TouchableOpacity style={styles.bookmark} onPress={handleBack}>
-                  <MaterialIcons
-                    name="arrow-back"
-                    size={24}
-                    color="#FFF"
-                    fontWeight="bold"
-                  />
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        {detalhes && (
+          <View style={styles.item}>
+            {detalhes.id === ID_DO_JOGO && (
+              <View>
+                <View style={styles.header}>
+                  <TouchableOpacity
+                    style={styles.bookmark}
+                    onPress={handleBack}
+                  >
+                    <MaterialIcons
+                      name="arrow-back"
+                      size={24}
+                      color="#FFF"
+                      fontWeight="bold"
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.bookmark}
+                    onPress={handleSave}
+                  >
+                    <Feather
+                      name="bookmark"
+                      size={20}
+                      color={
+                        favorites.some((item) => item.id === ID_DO_JOGO)
+                          ? "#FF455F"
+                          : "#FFFFFF"
+                      }
+                    />
+                  </TouchableOpacity>
+                </View>
+                <TouchableOpacity style={styles.link} onPress={handlelinkJogos}>
+                  <Feather name="link" color="#FFF" size={20} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bookmark} onPress={handleSave}>
-                  <Feather
-                    name="bookmark"
-                    size={20}
-                    color={
-                      favorites.some((item) => item.id === ID_DO_JOGO)
-                        ? "#FF455F"
-                        : "#FFFFFF"
-                    }
+                <View style={styles.imgContainer}>
+                  <Image
+                    style={styles.imagem}
+                    source={{ uri: detalhes.background_image }}
                   />
-                </TouchableOpacity>
-              </View>
-              <TouchableOpacity style={styles.link} onPress={handlelinkJogos}>
-                <Feather name="link" color="#FFF" size={20} />
-              </TouchableOpacity>
-              <View style={styles.imgContainer}>
-                <Image
-                  style={styles.imagem}
-                  source={{ uri: detalhes.background_image }}
-                />
-                <Image
-                  style={styles.imagem}
-                  source={{ uri: detalhes.background_image_additional }}
-                />
-              </View>
-              <View style={styles.star}>
-                <Ionicons name="star" color="yellow" size={20} />
-                <Text style={styles.released}>
-                  {detalhes.rating} / {detalhes.rating_top}
-                </Text>
-              </View>
-              <Text style={styles.title}>{detalhes.name}</Text>
-
-              <Text style={styles.subTitle}>Generos</Text>
-              <Text style={styles.genero}>{detalhes.genres[0].name}</Text>
-              <Text style={styles.subTitle}>Descrição</Text>
-              <Text numberOfLines={7} style={styles.description}>
-                {detalhes.description.replace(htmlRemoveRegex, " ")}
-              </Text>
-
-              <TouchableOpacity
-                onPress={() => setModalVisible(true)}
-                style={styles.buttonContainer}
-              >
-                <Text style={styles.button}>Ver mais</Text>
-              </TouchableOpacity>
-
-              <Modal
-                animationType="slide"
-                transparent={false}
-                visible={modalVisible}
-                onRequestClose={() => {
-                  setModalVisible(!modalVisible);
-                }}
-              >
-                <View style={styles.ModalContainer}>
-                  <View style={styles.headerModal}>
-                    <TouchableOpacity
-                      onPress={() => setModalVisible(!modalVisible)}
-                    >
-                      <MaterialIcons
-                        name="arrow-back"
-                        size={24}
-                        color="#FFF"
-                        fontWeight="bold"
-                      />
-                    </TouchableOpacity>
-                    <Text style={styles.subTitleModal}>Descrição</Text>
-                  </View>
-                  <Text style={styles.descriptionModal}>
-                    {detalhes.description.replace(htmlRemoveRegex, " ")}
+                  <Image
+                    style={styles.imagem}
+                    source={{ uri: detalhes.background_image_additional }}
+                  />
+                </View>
+                <View style={styles.star}>
+                  <Ionicons name="star" color="yellow" size={20} />
+                  <Text style={styles.released}>
+                    {detalhes.rating} / {detalhes.rating_top}
                   </Text>
                 </View>
-              </Modal>
+                <Text style={styles.title}>{detalhes.name}</Text>
 
-              <Text style={styles.subTitle}>Plataformas</Text>
-              <View style={styles.platform}>
-                {detalhes.platforms.length > 0 &&
-                  detalhes.platforms.map(({ platform }) => (
-                    <Text style={styles.plataformas} key={platform.id}>
-                      {platform.name}
-                    </Text>
-                  ))}
-              </View>
+                <Text style={styles.subTitle}>Genres</Text>
+                <Text style={styles.genero}>{detalhes.genres[0].name}</Text>
+                <Text style={styles.subTitle}>Description</Text>
+                <Text numberOfLines={7} style={styles.description}>
+                  {detalhes.description.replace(htmlRemoveRegex, " ")}
+                </Text>
 
-              <Text style={styles.subTitle}>Stores</Text>
-              <View style={styles.stores}>
-                {detalhes.stores.length > 0 &&
-                  detalhes.stores.map(({ store }) => (
-                    <Text style={styles.store} key={store.id}>
-                      {store.name}
-                    </Text>
-                  ))}
+                <TouchableOpacity
+                  onPress={() => setModalVisible(true)}
+                  style={styles.buttonContainer}
+                >
+                  <Text style={styles.button}>See More</Text>
+                </TouchableOpacity>
+
+                <Modal
+                  animationType="slide"
+                  transparent={false}
+                  visible={modalVisible}
+                  onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                  }}
+                >
+                  <ScrollView>
+                    <View style={styles.ModalContainer}>
+                      <View style={styles.headerModal}>
+                        <TouchableOpacity
+                          onPress={() => setModalVisible(!modalVisible)}
+                        >
+                          <MaterialIcons
+                            name="arrow-back"
+                            size={24}
+                            color="#FFF"
+                            fontWeight="bold"
+                          />
+                        </TouchableOpacity>
+                        <Text style={styles.subTitleModal}>Description</Text>
+                      </View>
+                      <Text style={styles.descriptionModal}>
+                        {detalhes.description.replace(htmlRemoveRegex, " ")}
+                      </Text>
+                    </View>
+                  </ScrollView>
+                </Modal>
+
+                <Text style={styles.subTitle}>Plataform</Text>
+                <View style={styles.platform}>
+                  {detalhes.platforms.length > 0 &&
+                    detalhes.platforms.map(({ platform }) => (
+                      <Text style={styles.plataformas} key={platform.id}>
+                        {platform.name}
+                      </Text>
+                    ))}
+                </View>
+
+                <Text style={styles.subTitle}>Stores</Text>
+                <View style={styles.stores}>
+                  {detalhes.stores.length > 0 &&
+                    detalhes.stores.map(({ store }) => (
+                      <Text style={styles.store} key={store.id}>
+                        {store.name}
+                      </Text>
+                    ))}
+                </View>
               </View>
-            </View>
-          )}
-        </View>
-      )}
-    </View>
+            )}
+          </View>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -238,10 +250,11 @@ const styles = StyleSheet.create({
   },
   star: {
     flexDirection: "row",
-    width: 50,
+    width: "100%",
     alignItems: "center",
     gap: 5,
-    marginTop: 10,
+    marginTop: 20,
+    marginLeft: 5,
   },
   button: {
     color: "#FFF",
@@ -279,6 +292,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#FFF",
     padding: 10,
+    marginBottom: 90,
   },
   header: {
     width: "95%",
